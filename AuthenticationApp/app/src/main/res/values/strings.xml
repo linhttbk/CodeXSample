@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Authentication</string>
+    <string name="sign_in_label">Sign In</string>
+    <string name="sign_in_subtitle">It was popularised in the 1960s with the release of Letraset sheetscontaining Lorem Ipsum.</string>
+    <string name="facebook_app_title">Facebook</string>
+    <string name="google_app_title">Google</string>
+    <string name="common_or">Or</string>
+    <string name="place_holder_email">hello@example.com</string>
+    <string name="place_holder_password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="login_btn_label">Login</string>
+    <string name="no_account">Don’t have account?</string>
+    <string name="sign_up_label">Sign Up</string>
+</resources>
