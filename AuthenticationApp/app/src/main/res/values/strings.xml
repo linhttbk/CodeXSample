@@ -6,9 +6,18 @@
     <string name="google_app_title">Google</string>
     <string name="common_or">Or</string>
     <string name="place_holder_email">hello@example.com</string>
+    <string name="place_holder_name">Name</string>
     <string name="place_holder_password">Password</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="login_btn_label">Login</string>
+    <string name="create_account_btn_label">Create Account</string>
     <string name="no_account">Don’t have account?</string>
+    <string name="have_account">Do you have account?</string>
     <string name="sign_up_label">Sign Up</string>
+    <string name="sign_up_subtitle">It was popularised in the 1960s with the release of Letraset sheetscontaining Lorem Ipsum.</string>
+    <string name="term_privacy_desc">I’m agree to The Terms of Service and Privacy Policy</string>
+    <string name="term_highlight">The Terms</string>
+    <string name="privacy_highlight">Privacy Policy</string>
+    <string name="term_link" translatable="false">https://www.youtube.com/@CodexSample</string>
+    <string name="privacy_link" translatable="false">https://www.youtube.com/@CodexSample</string>
 </resources>
