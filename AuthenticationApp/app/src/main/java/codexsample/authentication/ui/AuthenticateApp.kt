@@ -22,6 +22,8 @@ import codexsample.authentication.ui.features.login.LoginScreen
 import codexsample.authentication.ui.features.login.LoginSource
 import codexsample.authentication.ui.features.login.LoginViewModel
 import codexsample.authentication.ui.features.signup.SignUpScreen
+import codexsample.authentication.ui.features.signup.SignUpUIState
+import codexsample.authentication.ui.features.signup.SignUpViewModel
 import codexsample.authentication.ui.theme.AuthenticationTheme
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
@@ -86,11 +88,21 @@ fun AuthenticateApp(){
                 })
             }
             composable(route=Screen.SignUp.route){
-                SignUpScreen(onLoginClicked = {
+                val signUpViewModel:SignUpViewModel = hiltViewModel()
+                val signUpUIState by signUpViewModel.signUpUIState.collectAsState()
+                val context = LocalContext.current
+                SignUpScreen(shouldShowLoading = signUpUIState == SignUpUIState.Loading,onLoginClicked = {
 
                 }, onSignInClicked = {
                     navController.navigate(Screen.Login.route)
+                }, onCreateAccountClicked = {name,email,password ->
+                    signUpViewModel.signUpWithEmailAndPassword(name, email, password)
                 })
+                LaunchedEffect(key1 = signUpUIState) {
+                    if(signUpUIState is SignUpUIState.Error){
+                        Toast.makeText(context,(signUpUIState as SignUpUIState.Error).exception.message,Toast.LENGTH_LONG).show()
+                    }
+                }
             }
         }
     }
