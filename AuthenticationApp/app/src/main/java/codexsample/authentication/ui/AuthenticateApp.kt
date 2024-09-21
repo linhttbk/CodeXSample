@@ -1,5 +1,6 @@
 package codexsample.authentication.ui
 
+import android.credentials.GetCredentialException.TYPE_NO_CREDENTIAL
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
@@ -8,6 +9,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.NoCredentialException
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -41,30 +44,10 @@ fun AuthenticateApp(){
                 val loginViewModel:LoginViewModel = hiltViewModel()
                 val signInState:SignInCredentialState by loginViewModel.signInState.collectAsState()
                 val context = LocalContext.current
-                val googleSignInClient: GoogleSignInClient = remember {
-                    context.createGoogleSignInClient()
-                }
-                val authResultLauncher = rememberLauncherForActivityResult(contract = AuthResultContract(googleSignInClient)) { result ->
-                   try {
-                       val account = result?.getResult(ApiException::class.java)
-
-                       if(account == null){
-                           Toast.makeText(context,"Something wrong",Toast.LENGTH_LONG).show()
-                       }else{
-                           // auth with firebase
-                           val credential = GoogleAuthProvider.getCredential(account.idToken,null)
-                           loginViewModel.loginWithCredential(credential)
-                       }
-                   }catch (ex:ApiException){
-                        ex.printStackTrace()
-                       Toast.makeText(context,"Error on sign in ${ex.message}",Toast.LENGTH_LONG).show()
-                   }
-
-                }
                 LoginScreen(signInState,onLoginClicked = { source ->
                     when(source){
                         LoginSource.Google -> {
-                            authResultLauncher.launch(1)
+                            loginViewModel.signInWithGoogle(context)
                         }
                         LoginSource.Facebook -> {
 
@@ -74,8 +57,13 @@ fun AuthenticateApp(){
                     navController.navigate(Screen.SignUp.route)
                 })
                 LaunchedEffect(signInState) {
-                    if(signInState is SignInCredentialState.Error){
-                        Toast.makeText(context,"Error on sign in ${(signInState as SignInCredentialState.Error).ex.message}",Toast.LENGTH_LONG).show()
+                    val signInUIStateError = signInState as? SignInCredentialState.Error
+                    if(signInUIStateError != null ){
+                        if(signInUIStateError.ex is NoCredentialException){
+                            loginViewModel.signInWithGoogle(context,false)
+                        }else{
+                            Toast.makeText(context,"Error on sign in ${signInUIStateError.ex.message}",Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
             }
