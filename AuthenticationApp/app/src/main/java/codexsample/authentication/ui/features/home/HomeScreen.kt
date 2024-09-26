@@ -1,36 +1,57 @@
 package codexsample.authentication.ui.features.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import codexsample.authentication.ui.common.PrimaryButton
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import codexsample.authentication.ui.features.home.tasks.TasksScreen
 
 @Composable
-fun HomeScreen(userEmail: String?, onSignOutClicked: () -> Unit) {
-    Column(Modifier.fillMaxSize()) {
-        if(userEmail != null){
-            Text(
-                "Hello $userEmail",
-                modifier = Modifier
-                    .padding(20.dp)
-                    .fillMaxWidth(),
-                fontSize = 26.sp,
-                textAlign = TextAlign.Center
-            )
-            PrimaryButton(
-                modifier = Modifier
-                    .padding(vertical = 20.dp, horizontal = 40.dp)
-                    .fillMaxWidth(),
-                label = "Sign Out",
-                onClicked = onSignOutClicked
-            )
+fun HomeScreen(selectedTab:HomeTab,onTabSelected :(HomeTab)->Unit) {
+    Scaffold(bottomBar = {
+        NavigationBar {
+            HomeTab.entries.map { tab ->
+                NavigationBarItem(selectedTab == tab, onClick = {
+                    onTabSelected.invoke(tab)
+                }, icon = {
+                    Icon(painter = painterResource(tab.iconResId), contentDescription = null)
+                }, label = {
+                    Text(text = stringResource(tab.titleResId))
+                })
+            }
+        }
+    }) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            when(selectedTab){
+                HomeTab.Tasks -> {
+                    TasksScreen()
+                }
+                HomeTab.Statistics ->{
+                    Text("Statistic Screen")
+                }
+                HomeTab.Progress -> {
+                    Text("Progress Screen")
+                }
+                HomeTab.Chat -> {
+                    Text("Chat Screen")
+                }
+                HomeTab.Settings -> {
+                    Text("Settings Screen")
+                }
+            }
         }
     }
 }

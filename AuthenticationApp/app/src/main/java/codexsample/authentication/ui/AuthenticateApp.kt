@@ -81,10 +81,9 @@ fun AuthenticateApp(){
             }
             composable(route = Screen.Home.route){
                 val homeViewModel:HomeViewModel = hiltViewModel()
-                val userEmail by homeViewModel.currentUserEmail.collectAsState(initial = null)
-                val context = LocalContext.current
-                HomeScreen(userEmail, onSignOutClicked = {
-                    homeViewModel.signOut(context)
+                val homeTabSelected by homeViewModel.selectedHomeTab.collectAsState()
+                HomeScreen(homeTabSelected, onTabSelected = { selectedTab ->
+                    homeViewModel.updateHomeTabSelected(selectedTab)
                 })
             }
             composable(route=Screen.SignUp.route){

@@ -20,4 +20,9 @@
     <string name="privacy_highlight">Privacy Policy</string>
     <string name="term_link" translatable="false">https://www.youtube.com/@CodexSample</string>
     <string name="privacy_link" translatable="false">https://www.youtube.com/@CodexSample</string>
+    <string name="tasks_tab_title">Tasks</string>
+    <string name="progress_tab_title">Progress</string>
+    <string name="settings_tab_title">Settings</string>
+    <string name="statistics_tab_title">Statistics</string>
+    <string name="chat_tab_title">Chat</string>
 </resources>

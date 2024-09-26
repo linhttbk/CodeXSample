@@ -38,7 +38,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import codexsample.authentication.R
@@ -46,7 +45,6 @@ import codexsample.authentication.ui.common.PrimaryButton
 import codexsample.authentication.ui.common.SignInWithSource
 import codexsample.authentication.ui.common.openURL
 import codexsample.authentication.ui.features.login.LoginSource
-import codexsample.authentication.ui.theme.AuthenticationTheme
 
 sealed class SignUpUIState {
     data object Idle : SignUpUIState()

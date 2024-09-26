@@ -10,6 +10,8 @@ import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
@@ -18,7 +20,13 @@ class HomeViewModel @Inject constructor() :ViewModel() {
     val currentUserEmail :Flow<String?> = firebaseUser().mapLatest { firebaseUser ->
         firebaseUser?.email
     }.flowOn(Dispatchers.Default)
+    private val _selectedHomeTab = MutableStateFlow<HomeTab>(HomeTab.Tasks)
+    val selectedHomeTab :StateFlow<HomeTab>
+        get() = _selectedHomeTab
 
+    fun updateHomeTabSelected(homeTab: HomeTab){
+        _selectedHomeTab.value = homeTab
+    }
     fun signOut(context: Context){
         FirebaseAuth.getInstance().signOut()
         if(GoogleSignIn.getLastSignedInAccount(context)!= null){
