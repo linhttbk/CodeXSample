@@ -1,6 +1,6 @@
 [versions]
-agp = "8.6.0"
-kotlin = "1.9.0"
+agp = "8.7.0-alpha07"
+kotlin = "2.0.20"
 coreKtx = "1.10.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -14,6 +14,8 @@ gms = "4.4.2"
 auth-service= "21.2.0"
 hiltVersion= "2.50"
 hilt= "1.2.0"
+credentials = "1.2.2"
+googleid = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,6 +40,9 @@ auth-gms = { group = "com.google.android.gms", name="play-services-auth" ,versio
 hilt-android = { group = "com.google.dagger", name = "hilt-android" , version.ref = "hiltVersion"}
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler" , version.ref = "hiltVersion"}
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt" }
+credentials = {group="androidx.credentials" ,name="credentials" ,version.ref="credentials"}
+credentials-psa = {group="androidx.credentials" ,name="credentials-play-services-auth" ,version.ref="credentials"}
+googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -45,3 +50,5 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 gms = {id ="com.google.gms.google-services", version.ref = "gms"}
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin"}
 hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref ="hiltVersion" }
+ksp = { id = "com.google.devtools.ksp", version = "2.0.20-1.0.24" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

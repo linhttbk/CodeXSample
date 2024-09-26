@@ -192,7 +192,7 @@ fun LoginScreen(
 @Preview
 @Composable
 fun LoginScreenPreview() {
-    AuthenticationTheme {
+    AuthenticationTheme(dynamicColor = false) {
         LoginScreen(onLoginClicked = {
 
         }, onSignUpClicked = {
