@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
+import java.util.Calendar
 import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor() :ViewModel() {
@@ -27,6 +28,7 @@ class HomeViewModel @Inject constructor() :ViewModel() {
     fun updateHomeTabSelected(homeTab: HomeTab){
         _selectedHomeTab.value = homeTab
     }
+
     fun signOut(context: Context){
         FirebaseAuth.getInstance().signOut()
         if(GoogleSignIn.getLastSignedInAccount(context)!= null){
