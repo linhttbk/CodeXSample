@@ -6,6 +6,7 @@
     <string name="google_app_title">Google</string>
     <string name="common_or">Or</string>
     <string name="place_holder_email">hello@example.com</string>
+    <string name="place_holder_phone_number">+840966222111</string>
     <string name="place_holder_title">Task name…</string>
     <string name="place_holder_description">Task description</string>
     <string name="place_holder_name">Name</string>

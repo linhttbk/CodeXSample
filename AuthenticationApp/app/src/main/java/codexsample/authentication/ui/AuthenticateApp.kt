@@ -33,22 +33,26 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
 
 @Composable
-fun AuthenticateApp(){
+fun AuthenticateApp() {
     val navController = rememberNavController()
-    val mainViewModel:MainViewModel = hiltViewModel()
+    val mainViewModel: MainViewModel = hiltViewModel()
     val isUserLogin by mainViewModel.isUserLogin.collectAsState()
     AuthenticationTheme {
-        NavHost(navController = navController, startDestination =  if(isUserLogin) Screen.Home.route else  Screen.Login.route){
+        NavHost(
+            navController = navController,
+            startDestination = if (isUserLogin) Screen.Home.route else Screen.Login.route
+        ) {
 
-            composable(route = Screen.Login.route){ _ ->
-                val loginViewModel:LoginViewModel = hiltViewModel()
-                val signInState:SignInCredentialState by loginViewModel.signInState.collectAsState()
+            composable(route = Screen.Login.route) { _ ->
+                val loginViewModel: LoginViewModel = hiltViewModel()
+                val signInState: SignInCredentialState by loginViewModel.signInState.collectAsState()
                 val context = LocalContext.current
-                LoginScreen(signInState,onLoginClicked = { source ->
-                    when(source){
+                LoginScreen(signInState, onLoginClicked = { source ->
+                    when (source) {
                         LoginSource.Google -> {
                             loginViewModel.signInWithGoogle(context)
                         }
+
                         LoginSource.Facebook -> {
 
                         }
@@ -58,48 +62,60 @@ fun AuthenticateApp(){
                 })
                 LaunchedEffect(signInState) {
                     val signInUIStateError = signInState as? SignInCredentialState.Error
-                    if(signInUIStateError != null ){
-                        if(signInUIStateError.ex is NoCredentialException){
-                            loginViewModel.signInWithGoogle(context,false)
-                        }else{
-                            Toast.makeText(context,"Error on sign in ${signInUIStateError.ex.message}",Toast.LENGTH_LONG).show()
+                    if (signInUIStateError != null) {
+                        if (signInUIStateError.ex is NoCredentialException) {
+                            loginViewModel.signInWithGoogle(context, false)
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Error on sign in ${signInUIStateError.ex.message}",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
                 }
             }
-            composable(route = Screen.Home.route){
-                val homeViewModel:HomeViewModel = hiltViewModel()
+            composable(route = Screen.Home.route) {
+                val homeViewModel: HomeViewModel = hiltViewModel()
                 val homeTabSelected by homeViewModel.selectedHomeTab.collectAsState()
                 HomeScreen(homeTabSelected, onTabSelected = { selectedTab ->
                     homeViewModel.updateHomeTabSelected(selectedTab)
                 })
             }
-            composable(route=Screen.SignUp.route){
-                val signUpViewModel:SignUpViewModel = hiltViewModel()
+            composable(route = Screen.SignUp.route) {
+                val signUpViewModel: SignUpViewModel = hiltViewModel()
                 val signUpUIState by signUpViewModel.signUpUIState.collectAsState()
                 val context = LocalContext.current
-                SignUpScreen(shouldShowLoading = signUpUIState == SignUpUIState.Loading,onLoginClicked = {
+                SignUpScreen(
+                    shouldShowLoading = signUpUIState == SignUpUIState.Loading,
+                    onLoginClicked = {
 
-                }, onSignInClicked = {
-                    navController.navigate(Screen.Login.route)
-                }, onCreateAccountClicked = {name,email,password ->
-                    signUpViewModel.signUpWithEmailAndPassword(name, email, password)
-                })
+                    },
+                    onSignInClicked = {
+                        navController.navigate(Screen.Login.route)
+                    },
+                    onCreateAccountClicked = { name, email, password ->
+                        signUpViewModel.signUpWithEmailAndPassword(name, email, password)
+                    })
                 LaunchedEffect(key1 = signUpUIState) {
-                    if(signUpUIState is SignUpUIState.Error){
-                        Toast.makeText(context,(signUpUIState as SignUpUIState.Error).exception.message,Toast.LENGTH_LONG).show()
+                    if (signUpUIState is SignUpUIState.Error) {
+                        Toast.makeText(
+                            context,
+                            (signUpUIState as SignUpUIState.Error).exception.message,
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
             }
         }
     }
     LaunchedEffect(key1 = isUserLogin) {
-        if(isUserLogin){
-           if(navController.currentDestination?.route != Screen.Home.route){
-               navController.navigate(Screen.Home.route)
-           }
-        }else{
-            if(navController.currentDestination?.route == Screen.Home.route){
+        if (isUserLogin) {
+            if (navController.currentDestination?.route != Screen.Home.route) {
+                navController.navigate(Screen.Home.route)
+            }
+        } else {
+            if (navController.currentDestination?.route == Screen.Home.route) {
                 navController.navigate(Screen.Login.route)
             }
         }
