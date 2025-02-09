@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">GithubUser</string>
+    <string name="user_details_screen_title">User Details</string>
+    <string name="cannot_load_user_details">Cannot load user details</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="blog_label">Blog</string>
+</resources>
